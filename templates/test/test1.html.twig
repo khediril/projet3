@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+	
+{% block title %}test1
+{% endblock %}
+
+	{% block body %}
+		
+		<h1>bonjour GLDRA1</h1>
+
+		<ul>
+			{% for nom in noms %}
+				<li>{{ nom }}</li>
+
+
+			{% else %}
+				<li>
+					<em>no name found</em>
+				</li>
+
+			{% endfor %}
+		</ul>
+		<a href="{{ path('test3')}}">Aller à la page test3</a><br>
+
+		<a href="{{ path('test4',{"nom":"ali"})}}">Aller à la page test4</a>
+        {{ dump(app)}}
+{% endblock %}
+	
