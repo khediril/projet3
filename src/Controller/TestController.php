@@ -2,16 +2,17 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class TestController extends AbstractController
 {
     /**
      * @Route("/test", name="test")
      */
-    public function index(): Response
+    public function index(Mailer $mailer,Sevice2 $s2): Response
     {
         return $this->render('test/index.html.twig', [
             'controller_name' => 'GLDRA1',
@@ -22,22 +23,23 @@ class TestController extends AbstractController
      */
     public function test1(): Response
     {
-        $tab=["ali","salah","nesrine","khaoula","kamel"]  ;  
-        
-        
-       // dd($tab);
-        
-        return $this->render('test/test1.html.twig', ['noms'=>$tab
-            
+        $tab = ["ali", "salah", "nesrine", "khaoula", "kamel"];
+
+
+        // dd($tab);
+
+        return $this->render('test/test1.html.twig', [
+            'noms' => $tab
+
         ]);
     }
     /**
      * @Route("/test3", name="test3")
      */
-    public function test3(): Response
+    public function test3(Request $request): Response
     {
         $reponse = new Response('<html><head></head><body>Page test 3</body></html>');
-        
+
         return $reponse;
     }
     /**
@@ -49,6 +51,5 @@ class TestController extends AbstractController
             'nom' => $nom
 
         ]);
-
     }
 }
