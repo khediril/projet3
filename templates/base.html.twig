@@ -25,7 +25,8 @@
 
 	</head>
 	<body>
-		<img src="{{ asset("images/iset.png") }}">
+		<img src="{{ asset("images/iset.png") }}"> 
+		 <h1>Bienvenue sur notre site</h1>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
 	<div class="container-fluid">
 		<a class="navbar-brand" href="#">Navbar</a>
@@ -46,7 +47,7 @@
 					</a>
 					<ul class="dropdown-menu" aria-labelledby="navbarDropdown">
 						<li>
-							<a class="dropdown-item" href="#">Action</a>
+							<a class="dropdown-item" href="{{ path('produit_list')}}">Les Produits</a>
 						</li>
 						<li>
 							<a class="dropdown-item" href="#">Another action</a>
@@ -69,7 +70,7 @@
 	</div>
 </nav>
 
-       <h1>Bienvenue sur notre site</h1>
+      
         {% block body %}
         bonjour
         {% endblock %}

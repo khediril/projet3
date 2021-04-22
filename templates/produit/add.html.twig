@@ -1,0 +1,12 @@
+{% extends "base.html.twig" %}
+{% block title %}test
+{% endblock %}
+
+{% block body %}
+	<h1>Ajout d'un nouveau produit </h1>
+
+    <div class="alert alert-primary" role="alert">
+        <strong>Produit {{ produit.name }} ajouté avec succés (id:{{ produit.id }})</strong>
+    </div>
+{% endblock %}
+

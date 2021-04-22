@@ -19,6 +19,50 @@ class ProduitRepository extends ServiceEntityRepository
         parent::__construct($registry, Produit::class);
     }
 
+    // Exemple utilisant le QueryBuider
+    public function findByPriceInterval($pmin,$pmax)
+    {
+        $qb = $this->createQueryBuilder('p')
+        ->andWhere('p.price > :min')
+        ->setParameter('min', $pmin)
+        ->andWhere('p.price < :max')
+        ->setParameter('max', $pmax);
+
+        $query= $qb->getQuery();
+        $resultat = $query->getResult();
+        return $resultat;
+
+
+        /*
+        return $this->createQueryBuilder('p')
+        ->andWhere('p.price > :min')
+        ->setParameter('min', $min)
+        ->andWhere('p.price < :max')
+        ->setParameter('max', $max)
+      //  ->orderBy('p.id', 'ASC')
+      //  ->setMaxResults(10)
+        ->getQuery()
+        ->getResult()
+    ;*/
+    }
+    
+    // Exemple utilisant le langage DQL
+    public  function findByPriceInterval2($pmin,$pmax)
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT p
+            FROM App\Entity\Produit p
+            WHERE p.price > :min and p.price < :max
+            ORDER BY p.price ASC'
+        )->setParameter('min', $pmin)
+         ->setParameter('max', $pmax);
+
+        // returns an array of Product objects
+        return $query->getResult();
+    }
+
     // /**
     //  * @return Produit[] Returns an array of Produit objects
     //  */
