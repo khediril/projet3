@@ -3,6 +3,10 @@
 {% block title %}Categorie{% endblock %}
 
 {% block body %}
+
+    
+
+<div class="container">
     <h1>Categorie</h1>
 
     <table class="table">
@@ -17,10 +21,32 @@
             </tr>
         </tbody>
     </table>
+    <h1>Liste de tous les produits de la catégorie : {{ categorie.name }}</h1>
+    <h2>Il ya {{ categorie.produits|length }} produits dans cette catégorie</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID produit</th>
+                <th>Nom produit</th>
+                <th>Prix</th>
+            </tr>
+        </thead>
+        <tbody>
+         {% for p in categorie.produits %}
+            <tr>
+                <td scope="row">{{ p.id }}</td>
+                <td>{{ p.name }}</td>
+                <td>{{ p.price }}</td>
+            </tr>
+        {% endfor %}           
+            
+        </tbody>
+    </table>
 
     <a href="{{ path('categorie_index') }}">back to list</a>
 
     <a href="{{ path('categorie_edit', {'id': categorie.id}) }}">edit</a>
 
     {{ include('categorie/_delete_form.html.twig') }}
+    </div>
 {% endblock %}

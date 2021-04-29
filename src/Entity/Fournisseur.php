@@ -2,15 +2,15 @@
 
 namespace App\Entity;
 
-use App\Repository\CategorieRepository;
+use App\Repository\FournisseurRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass=CategorieRepository::class)
+ * @ORM\Entity(repositoryClass=FournisseurRepository::class)
  */
-class Categorie
+class Fournisseur
 {
     /**
      * @ORM\Id
@@ -25,7 +25,22 @@ class Categorie
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity=Produit::class, mappedBy="categorie")
+     * @ORM\Column(type="string", length=255)
+     */
+    private $adresse;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $email;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $tel;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Produit::class, inversedBy="fournisseurs")
      */
     private $produits;
 
@@ -51,6 +66,42 @@ class Categorie
         return $this;
     }
 
+    public function getAdresse(): ?string
+    {
+        return $this->adresse;
+    }
+
+    public function setAdresse(string $adresse): self
+    {
+        $this->adresse = $adresse;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getTel(): ?string
+    {
+        return $this->tel;
+    }
+
+    public function setTel(?string $tel): self
+    {
+        $this->tel = $tel;
+
+        return $this;
+    }
+
     /**
      * @return Collection|Produit[]
      */
@@ -63,7 +114,6 @@ class Categorie
     {
         if (!$this->produits->contains($produit)) {
             $this->produits[] = $produit;
-            $produit->setCategorie($this);
         }
 
         return $this;
@@ -71,12 +121,7 @@ class Categorie
 
     public function removeProduit(Produit $produit): self
     {
-        if ($this->produits->removeElement($produit)) {
-            // set the owning side to null (unless already changed)
-            if ($produit->getCategorie() === $this) {
-                $produit->setCategorie(null);
-            }
-        }
+        $this->produits->removeElement($produit);
 
         return $this;
     }
