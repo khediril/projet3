@@ -1,0 +1,69 @@
+{% extends "base.html.twig" %}
+{% block title %}test
+{% endblock %}
+
+{% block body %}
+	<h1>Ajout d'un nouveau produit
+	</h1>
+   {# {{ dump(form.name.vars) }} #}
+	{# {{ form(monform) }} #}
+	{{ form_start(form) }}
+	<div class="form-control">
+		<i class="fa fa-calendar"></i>
+		{{ form_label(form.name) }}
+		{{ form_widget(form.name) }}
+
+		<small>{{ form_help(form.name) }}</small>
+
+		<div class="form-error">
+			{{ form_errors(form.name) }}
+		</div>
+	</div>
+	<div class="form-control">
+		<i class="fa fa-calendar"></i>
+		{{ form_label(form.price) }}
+		{{ form_widget(form.price) }}
+
+		<small>{{ form_help(form.price) }}</small>
+
+		<div class="form-error">
+			{{ form_errors(form.price) }}
+		</div>
+
+	</div>
+	<div class="form-control">
+		<i class="fa fa-calendar"></i>
+		{{ form_label(form.quantity,'Quantité') }}
+		{{ form_widget(form.quantity) }}
+
+		<small>{{ form_help(form.quantity) }}</small>
+
+		<div class="form-error">
+			{{ form_errors(form.quantity) }}
+		</div>
+
+	</div>
+
+	<div class="form-control">
+		<i class="fa fa-calendar"></i>
+		{{ form_label(form.categorie,'CATEGORIE') }}
+		{{ form_widget(form.categorie) }}
+
+		<small>{{ form_help(form.categorie) }}</small>
+
+		<div class="form-error">
+			{{ form_errors(form.categorie) }}
+		</div>
+
+	</div>
+   <div class="form-control">
+		<i class="fa fa-calendar"></i>
+		{{ form_row(form.photo) }}
+		
+
+	</div>
+
+	<input type="submit" value="Ajouter">
+	{{ form_end(form) }}
+
+{% endblock %}
