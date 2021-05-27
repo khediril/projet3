@@ -38,7 +38,7 @@ class Fournisseur
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $tel;
-
+    
     /**
      * @ORM\ManyToMany(targetEntity=Produit::class, inversedBy="fournisseurs")
      */
