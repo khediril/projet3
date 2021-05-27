@@ -5,7 +5,8 @@
 {% block body %}
 <div class="container">
 
-    
+   <h3>Utilisateur connecté : {{ nom }} (<a href="{{ path('app_logout')}}">se déconnecter</a>)</h3>
+    <p>Email: {{ app.user.email }}</p>
     {% for message in app.flashes('notice') %}
     <div class="alert alert-danger" role="alert">
         {{ message }}

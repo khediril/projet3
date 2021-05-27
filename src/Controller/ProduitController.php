@@ -8,17 +8,22 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+
 
 /**
  * @Route("/produit", name="produit_")
+ * 
  */
 class ProduitController extends AbstractController
 {
     /**
      * @Route("/add/{name}/{price}/{quantity}", name="add")
+     * 
      */
     public function add($name, $price, $quantity): Response
     {
+       
         $produit = new Produit();
         $produit->setName($name);
         $produit->setPrice($price);
@@ -65,6 +70,7 @@ class ProduitController extends AbstractController
     }
     /**
      * @Route("/ajout2", name="ajout2")
+     * 
      */
     public function ajout2(Request $request): Response
     {
@@ -111,12 +117,13 @@ class ProduitController extends AbstractController
      */
     public function list(): Response
     {
-
+       // $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $produits = $this->getDoctrine()->getRepository(Produit::class)->findAll();
-
+        $user = $this->getUser();
+       // dd($user);
 
         return $this->render('produit/list.html.twig', [
-            'produits' => $produits,
+            'produits' => $produits,'nom' => $user->getNom()
         ]);
     }
     /**

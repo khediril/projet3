@@ -2,14 +2,23 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\User;
+use App\Entity\Produit;
 use App\Entity\Categorie;
 use App\Entity\Fournisseur;
-use App\Entity\Produit;
-use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Doctrine\Bundle\FixturesBundle\Fixture;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class AppFixtures extends Fixture
 {
+  
+    private $passwordEncoder;
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    {
+       $this->passwordEncoder = $passwordEncoder;
+        
+    }
     public function load(ObjectManager $manager)
     {
         // création des catégories
@@ -19,6 +28,7 @@ class AppFixtures extends Fixture
         $cat2 = new Categorie();
         $cat2->setName('categorie2');
         $manager->persist($cat2);
+       
         // Création des fournisseurs
         $f1 = new Fournisseur();
         $f1->setName('fournissuer1');
@@ -40,7 +50,7 @@ class AppFixtures extends Fixture
         $f3->setTel('71300300');
         $manager->persist($f3);
 
-
+        // création des produits
         for ($i = 1; $i < 30; $i++) {
             $produit = new Produit();
             $produit->setName('produit' . $i);
@@ -63,6 +73,28 @@ class AppFixtures extends Fixture
             }
             $manager->persist($produit);
         }
+        
+        $user = new User();
+        $user->setNom("Ben Salah");
+        $user->setPrenom("Ali");
+        $user->setEmail("ali@gmail.com");
+        $user->setPassword($this->passwordEncoder->encodePassword(
+                         $user,
+                         'admin'
+                    )) ;
+        $user->setRoles(['ROLE_ADMIN']);
+        $manager->persist($user);      
+        $user = new User();
+        $user->setNom("karkar");
+        $user->setPrenom("yassine");
+        $user->setEmail("yassine@gmail.com");
+        $user->setPassword($this->passwordEncoder->encodePassword(
+                         $user,
+                         'yassine'
+                    )) ;
+        $user->setRoles(['ROLE_USER']);
+        $manager->persist($user);
+
         $manager->flush();
     }
 }
