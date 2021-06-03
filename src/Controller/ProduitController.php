@@ -4,11 +4,12 @@ namespace App\Controller;
 
 use App\Entity\Produit;
 use App\Form\ProduitType;
+use App\Service\MessageGenerator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 
 /**
@@ -17,6 +18,12 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
  */
 class ProduitController extends AbstractController
 {
+    private $messageGenerator;
+    public function __construct(MessageGenerator $messageGenerator)
+    {
+        $this->messageGenerator = $messageGenerator;
+    }
+  
     /**
      * @Route("/add/{name}/{price}/{quantity}", name="add")
      * 
@@ -87,6 +94,7 @@ class ProduitController extends AbstractController
             $entityManager->persist($produit);
 
             $entityManager->flush();
+            
             // ... perform some action, such as saving the task to the database
             // for example, if Task is a Doctrine entity, save it!
             // $entityManager = $this->getDoctrine()->getManager();
@@ -117,13 +125,14 @@ class ProduitController extends AbstractController
      */
     public function list(): Response
     {
-       // $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $msg = $this->messageGenerator->getHappyMessage();
+        // $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $produits = $this->getDoctrine()->getRepository(Produit::class)->findAll();
         $user = $this->getUser();
        // dd($user);
 
         return $this->render('produit/list.html.twig', [
-            'produits' => $produits,'nom' => $user->getNom()
+            'produits' => $produits,'nom' => $user->getNom(),"message" => $msg
         ]);
     }
     /**
